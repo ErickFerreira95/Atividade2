@@ -29,7 +29,7 @@ public class ProdutosDAO {
 
     public void cadastrarProduto(ProdutosDTO produto) {
 
-        String sql = "INSERT INTO pordutos(nome, valor, status) VALUES "
+        String sql = "INSERT INTO produtos(nome, valor, status) VALUES "
                 + "(?,?,?)";
 
         try {
@@ -40,9 +40,10 @@ public class ProdutosDAO {
             stmt.setString(3, produto.getStatus());
             stmt.execute();
 
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
             conn = new conectaDAO().connectDB();
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto!");
         }
 
     }
