@@ -48,7 +48,6 @@ public class ProdutosDAO {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto!");
         }
-
     }
 
     public List<ProdutosDTO> listarProdutos() {
@@ -60,6 +59,54 @@ public class ProdutosDAO {
         
         try {
             stmt = conn.prepareStatement("SELECT*FROM produtos");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                
+                ProdutosDTO produtos = new ProdutosDTO();
+                
+                produtos.setId(rs.getInt("id"));
+                produtos.setNome(rs.getString("nome"));
+                produtos.setValor(rs.getInt("valor"));
+                produtos.setStatus(rs.getString("status"));
+                listagem.add(produtos);
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return listagem;
+    }
+    
+    public void VenderProduto(ProdutosDTO produtosdto) {
+
+        String sql = "UPDATE produtos SET status=? WHERE id=?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            
+            stmt.setString(1, produtosdto.getStatus());
+            stmt.setInt(2, produtosdto.getId());
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar produto!");
+        }
+    }
+    
+    public List<ProdutosDTO> listarProdutosVendidos() {
+        
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<ProdutosDTO> listagem = new ArrayList<>();
+        
+        try {
+            stmt = conn.prepareStatement("SELECT id, nome, valor, status FROM produtos WHERE status = 'Vendido'");
             rs = stmt.executeQuery();
             
             while (rs.next()) {
