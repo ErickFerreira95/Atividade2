@@ -22,7 +22,7 @@ public class conectaDAO {
 
             conn = DriverManager.getConnection("jdbc:mysql://localhost/atividade2uc11?autoReconnect=true&useSSL=false",
                     "root",
-                    "Picoricos2Nina."
+                    "Picoricos2Nina." //senha
             );
             return conn;
 

@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -150,11 +151,15 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-
+    
         ProdutosDAO produtosdao = new ProdutosDAO();
-
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        ProdutosDTO produtosdto = new ProdutosDTO();
+        
+        produtosdto.setId(Integer.parseInt(id_produto_venda.getText()));
+        if(produtosdto.getId().equals(Integer.parseInt(id_produto_venda.getText()))) {
+            produtosdto.setStatus("Vendido");
+        }
+        produtosdao.VenderProduto(produtosdto);
         
     }//GEN-LAST:event_btnVenderActionPerformed
 
@@ -219,6 +224,4 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     public javax.swing.JTable listaProdutos;
     // End of variables declaration//GEN-END:variables
-
-    
 }
