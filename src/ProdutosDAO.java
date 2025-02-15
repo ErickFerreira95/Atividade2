@@ -97,4 +97,32 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar produto!");
         }
     }
+    
+    public List<ProdutosDTO> listarProdutosVendidos() {
+        
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<ProdutosDTO> listagem = new ArrayList<>();
+        
+        try {
+            stmt = conn.prepareStatement("SELECT id, nome, valor, status FROM produtos WHERE status = 'Vendido'");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                
+                ProdutosDTO produtos = new ProdutosDTO();
+                
+                produtos.setId(rs.getInt("id"));
+                produtos.setNome(rs.getString("nome"));
+                produtos.setValor(rs.getInt("valor"));
+                produtos.setStatus(rs.getString("status"));
+                listagem.add(produtos);
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return listagem;
+    }
 }

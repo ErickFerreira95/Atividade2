@@ -1,3 +1,7 @@
+
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,6 +12,23 @@
  * @author Erick
  */
 public class VendasView extends javax.swing.JFrame {
+    
+    private DefaultTableModel montarTabela() {
+        ProdutosDAO dao = new ProdutosDAO();
+        
+        String[] tableColumns = {"ID", "Nome", "Valor", "Status"};
+        DefaultTableModel tableModel = new DefaultTableModel(tableColumns,0);
+        List<ProdutosDTO> listagem = dao.listarProdutosVendidos();
+        
+        for (int i = 0; i < listagem.size(); i++) {
+            ProdutosDTO produtos = new ProdutosDTO();
+            produtos = listagem.get(i);
+            
+            String[] rowDta = {String.valueOf(produtos.getId()), produtos.getNome(), String.valueOf(produtos.getValor()), produtos.getStatus()};
+            tableModel.addRow(rowDta);
+        }
+        return tableModel;
+    }
 
     /**
      * Creates new form VendasView
@@ -36,14 +57,7 @@ public class VendasView extends javax.swing.JFrame {
         lblProdutosVendidos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblProdutosVendidos.setText("Produtos Vendidos");
 
-        tblVendidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nome", "Valor", "Status"
-            }
-        ));
+        tblVendidos.setModel(montarTabela());
         jScrollPane1.setViewportView(tblVendidos);
 
         btnVoltar.setText("Voltar");
